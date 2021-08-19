@@ -10,6 +10,14 @@ class Contact {
     return firstName + " " + lastName;
   }
 
+  String getFirstName() {
+    return firstName;
+  }
+
+  String getLastName() {
+    return lastName;
+  }
+
   String getPhoneNumber() {
     return phoneNumber;
   }

@@ -13,8 +13,6 @@ class ContactList extends StatefulWidget {
 }
 
 class _ContactListState extends State<ContactList> {
-  //var _contactList = <Contact>[];
-
   List<Contact> getContactsFromMemory() {
     var contactList = <Contact>[];
     Contact a = new Contact("Mark", "Bezos", "123123123", "email@email.com");
@@ -65,15 +63,91 @@ class _ContactListState extends State<ContactList> {
           onPressed: () {
             String name = contact.getFullName();
             log("_editContact $name");
+            _editContactInfo(contact);
           },
         ),
       ),
     );
   }
 
-  String getInitials(String name) => name.isNotEmpty
-      ? name.trim().split(' ').map((l) => l[0]).take(3).join()
-      : '';
+  String getInitials(String name) =>
+      name.isNotEmpty
+          ? name.trim().split(' ').map((l) => l[0]).take(3).join()
+          : '';
+
+  void _editContactInfo(Contact contact) {
+    String name = contact.getFullName();
+    log("_editContactInfo for $name");
+
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(title: Text("Editing: " + name)),
+        body: Form(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Card(
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+              child: ListTile(
+                leading: Icon(
+                  Icons.account_circle,
+                  color: Colors.cyan,
+                ),
+                title: TextFormField(
+                    decoration: InputDecoration(labelText: "First Name"),
+                    initialValue: contact.getFirstName()),
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+              child: ListTile(
+                leading: Icon(
+                  Icons.account_circle,
+                  color: Colors.cyan,
+                ),
+                title: TextFormField(
+                    decoration: InputDecoration(labelText: "Last Name"),
+                    initialValue: contact.getLastName()),
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+              child: ListTile(
+                leading: Icon(
+                  Icons.phone,
+                  color: Colors.cyan,
+                ),
+                title: TextFormField(
+                  decoration: InputDecoration(labelText: "Phone Number"),
+                  initialValue: contact.getPhoneNumber(),
+                ),
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+              child: ListTile(
+                leading: Icon(
+                  Icons.email,
+                  color: Colors.cyan,
+                ),
+                title: TextFormField(
+                    decoration: InputDecoration(labelText: "Email"),
+                    initialValue: contact.getEmail()),
+              ),
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  setState(() {});
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text(
+                        'Contact Successfully Edited')),
+                  );
+                },
+                child: Text("Save Changes")),
+          ]),
+        ),
+      );
+    }));
+  }
 
   void _viewContactInfo(Contact contact) {
     String name = contact.getFullName();
@@ -82,7 +156,16 @@ class _ContactListState extends State<ContactList> {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
       return Scaffold(
-        appBar: AppBar(title: Text(name)),
+        appBar: AppBar(
+          title: Text(name),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                  log("Icons.edit for $name");
+                })
+          ],
+        ),
         body: SafeArea(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             CircleAvatar(
@@ -109,7 +192,7 @@ class _ContactListState extends State<ContactList> {
                   color: Colors.cyan,
                 ),
                 title: Text(
-                  '+91 1234 567890',
+                  contact.getPhoneNumber(),
                   style: TextStyle(
                       fontSize: 20.0,
                       fontFamily: 'Source Sans Pro',
@@ -125,7 +208,7 @@ class _ContactListState extends State<ContactList> {
                   color: Colors.cyan,
                 ),
                 title: Text(
-                  'keertirajmalik@gmail.com',
+                  contact.getEmail(),
                   style: TextStyle(
                       fontFamily: 'Source Sans Pro',
                       fontSize: 20.0,
