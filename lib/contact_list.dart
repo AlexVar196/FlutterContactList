@@ -1,11 +1,12 @@
+import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'dart:developer';
-import './contact.dart';
+import 'model/contact_model.dart';
+import 'contact_list_string.dart' as contactListData;
 
 class ContactList extends StatefulWidget {
   ContactList({Key? key, required this.title}) : super(key: key);
-
   final String title;
 
   @override
@@ -13,19 +14,17 @@ class ContactList extends StatefulWidget {
 }
 
 class _ContactListState extends State<ContactList> {
-  List<Contact> getContactsFromMemory() {
-    var contactList = <Contact>[];
-    Contact a = new Contact("Mark", "Bezos", "123123123", "email@email.com");
-    Contact b = new Contact("Eric", "Musk", "123123123", "email@email.com");
-    Contact c = new Contact("George", "Trump", "123123123", "email@email.com");
-    contactList.add(a);
-    contactList.add(b);
-    contactList.add(c);
-    return contactList;
+  List<ContactModel> parseContactsFromJson() {
+    var jsonData = jsonDecode(contactListData.data) as List;
+    List<ContactModel> contacts =
+        jsonData.map((x) => ContactModel.fromJson(x)).toList();
+    print(contacts);
+    return contacts;
   }
 
   Widget getContactListView() {
-    var _contactList = getContactsFromMemory();
+    var _contactList = parseContactsFromJson();
+
     return ListView.builder(
         itemCount: _contactList.length * 2,
         itemBuilder: (context, count) {
@@ -35,7 +34,7 @@ class _ContactListState extends State<ContactList> {
         });
   }
 
-  Widget _buildRow(Contact contact) {
+  Widget _buildRow(ContactModel contact) {
     return ListTile(
       leading: Container(
         height: double.infinity,
@@ -70,12 +69,11 @@ class _ContactListState extends State<ContactList> {
     );
   }
 
-  String getInitials(String name) =>
-      name.isNotEmpty
-          ? name.trim().split(' ').map((l) => l[0]).take(3).join()
-          : '';
+  String getInitials(String name) => name.isNotEmpty
+      ? name.trim().split(' ').map((l) => l[0]).take(3).join()
+      : '';
 
-  void _editContactInfo(Contact contact) {
+  void _editContactInfo(ContactModel contact) {
     String name = contact.getFullName();
     log("_editContactInfo for $name");
 
@@ -138,8 +136,8 @@ class _ContactListState extends State<ContactList> {
                 onPressed: () {
                   setState(() {});
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text(
-                        'Contact Successfully Edited')),
+                    const SnackBar(
+                        content: Text('Contact Successfully Edited')),
                   );
                 },
                 child: Text("Save Changes")),
@@ -149,7 +147,7 @@ class _ContactListState extends State<ContactList> {
     }));
   }
 
-  void _viewContactInfo(Contact contact) {
+  void _viewContactInfo(ContactModel contact) {
     String name = contact.getFullName();
     log("_viewContactInfo for $name");
 
