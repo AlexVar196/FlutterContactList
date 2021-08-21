@@ -2,18 +2,22 @@ import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'dart:developer';
-import 'model/contact_model.dart';
-import 'contact_list_string.dart' as contactListData;
+import '../model/contact_model.dart';
+import '../controller/contact_list_controller.dart';
+import '../model/contact_list_string.dart' as contactListData;
 
-class ContactList extends StatefulWidget {
-  ContactList({Key? key, required this.title}) : super(key: key);
-  final String title;
+class ContactListHome extends StatefulWidget {
+  ContactListHome({Key? key}) : super(key: key);
+
 
   @override
-  _ContactListState createState() => _ContactListState();
+  _ContactListHomeState createState() => _ContactListHomeState();
 }
 
-class _ContactListState extends State<ContactList> {
+class _ContactListHomeState extends State<ContactListHome> {
+
+  final ContactListController  _con = ContactListController();
+
   List<ContactModel> parseContactsFromJson() {
     var jsonData = jsonDecode(contactListData.data) as List;
     List<ContactModel> contacts =
@@ -227,7 +231,7 @@ class _ContactListState extends State<ContactList> {
         centerTitle: true,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text('widget.title'),
       ),
       body: getContactListView(),
 
