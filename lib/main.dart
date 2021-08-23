@@ -2,7 +2,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'view/contact_list_home.dart';
+import 'view/home_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: ContactListHome(),
+      home: HomePage(),
     );
   }
 }

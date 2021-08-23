@@ -6,32 +6,22 @@ import '../model/contact_model.dart';
 import '../controller/edit_page_controller.dart';
 import '../model/contact_list_data_string.dart' as contactListData;
 
-class EditContactPage extends StatefulWidget {
-  EditContactPage(this.contact, {Key? key}) : super(key: key);
+class ContactAddPage extends StatefulWidget {
+  ContactAddPage({Key? key}) : super(key: key);
 
-  final ContactModel contact;
-  final String title = "Contact List (Home)";
+  final String title = "Add New Contact";
 
   @override
-  _ContactListEditPage createState() => _ContactListEditPage();
+  _AddContactPage createState() => _AddContactPage();
 }
 
-class _ContactListEditPage extends State<EditContactPage> {
-  final EditPageController _con = EditPageController();
+class _AddContactPage extends State<ContactAddPage> {
+  // final EditPageController _con = EditPageController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Editing: "),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                log("Icons.delete for ${widget.contact.getFullName()}");
-              })
-        ],
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       body: Form(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Card(
@@ -42,8 +32,8 @@ class _ContactListEditPage extends State<EditContactPage> {
                 color: Colors.cyan,
               ),
               title: TextFormField(
-                  decoration: InputDecoration(labelText: "First Name"),
-                  initialValue: widget.contact.getFirstName()),
+                decoration: InputDecoration(labelText: "First Name"),
+              ),
             ),
           ),
           Card(
@@ -54,8 +44,8 @@ class _ContactListEditPage extends State<EditContactPage> {
                 color: Colors.cyan,
               ),
               title: TextFormField(
-                  decoration: InputDecoration(labelText: "Last Name"),
-                  initialValue: widget.contact.getLastName()),
+                decoration: InputDecoration(labelText: "Last Name"),
+              ),
             ),
           ),
           Card(
@@ -67,7 +57,6 @@ class _ContactListEditPage extends State<EditContactPage> {
               ),
               title: TextFormField(
                 decoration: InputDecoration(labelText: "Phone Number"),
-                initialValue: widget.contact.getPhoneNumber(),
               ),
             ),
           ),
@@ -79,8 +68,8 @@ class _ContactListEditPage extends State<EditContactPage> {
                 color: Colors.cyan,
               ),
               title: TextFormField(
-                  decoration: InputDecoration(labelText: "Email"),
-                  initialValue: widget.contact.getEmail()),
+                decoration: InputDecoration(labelText: "Email"),
+              ),
             ),
           ),
           ElevatedButton(
@@ -90,7 +79,7 @@ class _ContactListEditPage extends State<EditContactPage> {
                   const SnackBar(content: Text('Contact Successfully Edited')),
                 );
               },
-              child: Text("Save Changes")),
+              child: Text("Add Contact")),
         ]),
       ),
     );

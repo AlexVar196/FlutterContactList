@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/controller/contact_info_controller.dart';
+import 'package:flutter_app/controller/info_page_controller.dart';
 import 'dart:developer';
 import '../model/contact_model.dart';
 import '../controller/edit_page_controller.dart';
@@ -18,7 +18,7 @@ class ContactInfoPage extends StatefulWidget {
 }
 
 class _ContactListEditPage extends State<ContactInfoPage> {
-  final ContactInfoController _con = ContactInfoController();
+  final InfoPageController _con = InfoPageController();
 
   String getInitials(String name) => name.isNotEmpty
       ? name.trim().split(' ').map((l) => l[0]).take(3).join()
