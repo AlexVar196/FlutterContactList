@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/controller/contact_info_controller.dart';
 import 'dart:developer';
 import '../model/contact_model.dart';
 import '../controller/edit_page_controller.dart';
@@ -17,7 +18,7 @@ class ContactInfoPage extends StatefulWidget {
 }
 
 class _ContactListEditPage extends State<ContactInfoPage> {
-  final EditPageController _con = EditPageController();
+  final ContactInfoController _con = ContactInfoController();
 
   String getInitials(String name) => name.isNotEmpty
       ? name.trim().split(' ').map((l) => l[0]).take(3).join()
@@ -32,6 +33,7 @@ class _ContactListEditPage extends State<ContactInfoPage> {
           IconButton(
               icon: Icon(Icons.edit),
               onPressed: () {
+                _con.onEditPressed(Navigator.of(context), widget.contact);
                 log("Icons.edit for ${widget.contact.getFullName()}");
               })
         ],

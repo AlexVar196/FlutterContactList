@@ -6,7 +6,7 @@ import 'dart:developer';
 import '../model/contact_model.dart';
 import '../controller/contact_list_home_controller.dart';
 import '../model/contact_list_data_string.dart' as contactListData;
-import 'contact_list_edit_page.dart';
+import 'edit_contact_page.dart';
 
 class ContactListHome extends StatefulWidget {
   ContactListHome({Key? key}) : super(key: key);
@@ -25,30 +25,20 @@ class _ContactListHomeState extends State<ContactListHome> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: getContactListView(),
-
       floatingActionButton: FloatingActionButton(
-        onPressed: _con.onAddContactPressed,
+        onPressed: () {
+          _con.onAddContactPressed(Navigator.of(context));
+        },
         tooltip: 'Add Contact',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 
-  List<ContactModel> parseContactsFromJson() {
-    var jsonData = jsonDecode(contactListData.data) as List;
-    List<ContactModel> contacts =
-        jsonData.map((x) => ContactModel.fromJson(x)).toList();
-    //print(contacts);
-    return contacts;
-  }
-
   Widget getContactListView() {
-    //  var _contactList = parseContactsFromJson();
     var _contactList = _con.parseContactsFromJson();
     return ListView.builder(
         itemCount: _contactList.length * 2,
@@ -69,8 +59,7 @@ class _ContactListHomeState extends State<ContactListHome> {
             size: 38,
           ),
           onPressed: () {
-            log("_viewContactInfo(contact)");
-            _viewContactInfo(contact);
+            _con.onViewContactPressed(Navigator.of(context), contact);
           },
         ),
       ),
@@ -84,19 +73,10 @@ class _ContactListHomeState extends State<ContactListHome> {
             size: 28,
           ),
           onPressed: () {
-            log("_editContactInfo.(contact)");
-            _editContactInfo(contact);
+            _con.onEditContactPressed(Navigator.of(context), contact);
           },
         ),
       ),
     );
-  }
-
-  void _editContactInfo(ContactModel contact) {
-    _con.onEditContactPressed(Navigator.of(context), contact);
-  }
-
-  void _viewContactInfo(ContactModel contact) {
-    _con.onViewContactPressed(Navigator.of(context), contact);
   }
 }

@@ -4,8 +4,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_app/model/contact_model.dart';
+import 'package:flutter_app/view/add_contact_page.dart';
 import 'package:flutter_app/view/contact_info_page.dart';
-import 'package:flutter_app/view/contact_list_edit_page.dart';
+import 'package:flutter_app/view/edit_contact_page.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import '../model/contact_list_model.dart';
 import '../model/contact_list_data_string.dart' as contactListData;
@@ -31,25 +32,15 @@ class ContactListHomeController extends ControllerMVC {
   void addContact() => ContactListModel().addContact();
 
   void onEditContactPressed(NavigatorState nav, ContactModel contact) {
-    String name = contact.getFullName();
-    log("ContactListHomeController: onEditContactPressed for $name");
-    nav.push(MaterialPageRoute(builder: (context) => ContactListEditPage(contact)));
+    nav.push(MaterialPageRoute(builder: (context) => EditContactPage(contact)));
   }
 
   void onViewContactPressed(NavigatorState nav, ContactModel contact) {
     nav.push(MaterialPageRoute(builder: (context) => ContactInfoPage(contact)));
-    log("ContactListHomeController: onViewContactPressed");
-/*
-    String name = contact.getFullName();
-    log("controller onViewContactPressed for $name");*/
-/*
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => ContactInfoPage(contact)));
-    log("ContactListHomeController: onAddContactPressed");*/
   }
 
-  void onAddContactPressed() {
-    log("ContactListHomeController: onAddContactPressed");
+  void onAddContactPressed(NavigatorState nav) {
+       nav.push(MaterialPageRoute(builder: (context) => AddContactPage()));
   }
 
   List<ContactModel> parseContactsFromJson() {
