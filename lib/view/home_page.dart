@@ -1,17 +1,19 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/model/contact_list_model.dart';
 import 'package:flutter_app/view/contact_info_page.dart';
 import 'dart:developer';
 import '../model/contact_model.dart';
 import '../controller/home_controller.dart';
 import '../model/contact_list_data_string.dart' as contactListData;
+import 'contact_add_page.dart';
 import 'contact_edit_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
-  final String title = "Contact List (Home)";
+  final String title = "Contacts";
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -30,7 +32,9 @@ class _HomePageState extends State<HomePage> {
       body: getContactListView(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _con.onAddContactPressed(Navigator.of(context));
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => ContactAddPage()))
+              .then((value) => setState(() {}));
         },
         tooltip: 'Add Contact',
         child: Icon(Icons.add),
@@ -39,7 +43,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget getContactListView() {
-    var _contactList = _con.parseContactsFromJson();
+    var _contactList = _con.getContactList();
+    if (_contactList.isEmpty) {
+      return Text(
+        "Currently there are no contacts.",
+        textAlign: TextAlign.center,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      );
+    }
+
     return ListView.builder(
         itemCount: _contactList.length * 2,
         itemBuilder: (context, count) {
@@ -59,7 +71,10 @@ class _HomePageState extends State<HomePage> {
             size: 38,
           ),
           onPressed: () {
-            _con.onViewContactPressed(Navigator.of(context), contact);
+            Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) => ContactInfoPage(contact)))
+                .then((value) => setState(() {}));
           },
         ),
       ),
@@ -73,7 +88,10 @@ class _HomePageState extends State<HomePage> {
             size: 28,
           ),
           onPressed: () {
-            _con.onEditContactPressed(Navigator.of(context), contact);
+            Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) => ContactEditPage(contact)))
+                .then((value) => setState(() {}));
           },
         ),
       ),

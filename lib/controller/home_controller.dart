@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -12,13 +13,12 @@ import '../model/contact_list_model.dart';
 import '../model/contact_list_data_string.dart' as contactListData;
 
 class HomeController extends ControllerMVC {
-  static HomeController _controller =
-      HomeController._internal();
+  //var contactList;
+  static HomeController _controller = HomeController._internal();
 
   /// Singleton Factory
   factory HomeController() {
-    if (_controller == null)
-      _controller = HomeController._internal();
+    if (_controller == null) _controller = HomeController._internal();
     return _controller;
   }
 
@@ -27,20 +27,29 @@ class HomeController extends ControllerMVC {
   /// Allow for easy access to 'the Controller' throughout the application.
   static HomeController get con => _controller;
 
-  int get counter => ContactListModel.num;
-
-  void addContact() => ContactListModel().addContact();
-
-  void onEditContactPressed(NavigatorState nav, ContactModel contact) {
-    nav.push(MaterialPageRoute(builder: (context) => ContactEditPage(contact)));
+/*  void onEditContactPressed(BuildContext context, ContactModel contact) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => ContactEditPage(contact)));
   }
 
-  void onViewContactPressed(NavigatorState nav, ContactModel contact) {
-    nav.push(MaterialPageRoute(builder: (context) => ContactInfoPage(contact)));
-  }
+  void onViewContactPressed(BuildContext context, ContactModel contact) {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => ContactInfoPage(contact)));
+  }*/
 
-  void onAddContactPressed(NavigatorState nav) {
-       nav.push(MaterialPageRoute(builder: (context) => ContactAddPage()));
+/*  void onAddContactPressed(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => ContactAddPage()));
+  }*/
+
+  List<ContactModel> getContactList() {
+    final ContactListModel cl = ContactListModel();
+    var contacts = cl.getContacts();
+    if (contacts != null) {
+      return contacts;
+    } else {
+      return List.empty();
+    }
   }
 
   List<ContactModel> parseContactsFromJson() {

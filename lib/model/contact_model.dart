@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 class ContactModel {
   String firstName;
@@ -5,7 +6,12 @@ class ContactModel {
   String phoneNumber;
   String email;
 
-  ContactModel({required this.firstName, required this.lastName, required this.phoneNumber, required this.email,});
+  ContactModel({
+    required this.firstName,
+    required this.lastName,
+    required this.phoneNumber,
+    required this.email,
+  });
 
   factory ContactModel.fromJson(Map<String, dynamic> json) => ContactModel(
         firstName: json["firstName"],
@@ -46,19 +52,29 @@ class ContactModel {
     return email;
   }
 
-  void setFirstName(String firstName) {
+  void _setFirstName(String firstName) {
     this.firstName = firstName;
   }
 
-  void setLastName(String lastName) {
+  void _setLastName(String lastName) {
     this.lastName = lastName;
   }
 
-  void setPhoneNumber(String phoneNumber) {
+  void _setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
 
-  void setEmail(String email) {
+  void _setEmail(String email) {
     this.email = email;
+  }
+
+  void updateAll(
+      String firstName, String lastName, String phoneNumber, String email) {
+    _setFirstName(firstName);
+    _setLastName(lastName);
+    _setPhoneNumber(phoneNumber);
+    _setEmail(email);
+
+    log("Contact updated: name: $firstName, last: $lastName, phone: $phoneNumber, email: $email");
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/controller/add_page_controller.dart';
 import 'dart:developer';
 import '../model/contact_model.dart';
 import '../controller/edit_page_controller.dart';
@@ -16,14 +17,21 @@ class ContactAddPage extends StatefulWidget {
 }
 
 class _AddContactPage extends State<ContactAddPage> {
-  // final EditPageController _con = EditPageController();
+  final AddPageController _con = AddPageController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  String firstName = "";
+  String lastName = "";
+  String phoneNumber = "";
+  String email = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: Form(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        key: _formKey,
+        child: ListView(children: [
           Card(
             margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
             child: ListTile(
@@ -33,6 +41,13 @@ class _AddContactPage extends State<ContactAddPage> {
               ),
               title: TextFormField(
                 decoration: InputDecoration(labelText: "First Name"),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter first name';
+                  }
+                  firstName = value;
+                  return null;
+                },
               ),
             ),
           ),
@@ -45,6 +60,13 @@ class _AddContactPage extends State<ContactAddPage> {
               ),
               title: TextFormField(
                 decoration: InputDecoration(labelText: "Last Name"),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter last name';
+                  }
+                  lastName = value;
+                  return null;
+                },
               ),
             ),
           ),
@@ -57,6 +79,13 @@ class _AddContactPage extends State<ContactAddPage> {
               ),
               title: TextFormField(
                 decoration: InputDecoration(labelText: "Phone Number"),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter phone number';
+                  }
+                  phoneNumber = value;
+                  return null;
+                },
               ),
             ),
           ),
@@ -69,17 +98,26 @@ class _AddContactPage extends State<ContactAddPage> {
               ),
               title: TextFormField(
                 decoration: InputDecoration(labelText: "Email"),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter email address';
+                  }
+                  email = value;
+                  return null;
+                },
               ),
             ),
           ),
           ElevatedButton(
               onPressed: () {
-                setState(() {});
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Contact Successfully Edited')),
-                );
+                if (_formKey.currentState!.validate()) {
+                  setState(() {
+                    _con.addContact(
+                        firstName, lastName, phoneNumber, email, context);
+                  });
+                }
               },
-              child: Text("Add Contact")),
+              child: Text("Save Changes")),
         ]),
       ),
     );

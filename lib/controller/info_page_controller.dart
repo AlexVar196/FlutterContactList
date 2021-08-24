@@ -23,7 +23,11 @@ class InfoPageController extends ControllerMVC {
   /// Allow for easy access to 'the Controller' throughout the application.
   static InfoPageController get con => _controller;
 
-  void onEditPressed(NavigatorState nav, ContactModel contact) {
-    nav.push(MaterialPageRoute(builder: (context) => ContactEditPage(contact)));
+  void onEditPressed(BuildContext context, ContactModel contact) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => ContactEditPage(contact)))
+        .then((value) => Navigator.pop(context, () {
+              setState(() {});
+            }));
   }
 }

@@ -33,7 +33,8 @@ class _ContactListEditPage extends State<ContactInfoPage> {
           IconButton(
               icon: Icon(Icons.edit),
               onPressed: () {
-                _con.onEditPressed(Navigator.of(context), widget.contact);
+               // _con.onEditPressed(Navigator.of(context), widget.contact);
+                _con.onEditPressed(context, widget.contact);
                 log("Icons.edit for ${widget.contact.getFullName()}");
               })
         ],

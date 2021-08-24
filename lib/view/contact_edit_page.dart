@@ -18,12 +18,20 @@ class ContactEditPage extends StatefulWidget {
 
 class _ContactListEditPage extends State<ContactEditPage> {
   final EditPageController _con = EditPageController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  String firstName = "";
+  String lastName = "";
+  String phoneNumber = "";
+  String email = "";
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController firstNameController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Editing: "),
+        title: Text("Editing: ${widget.contact.getFullName()}"),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.delete),
@@ -33,7 +41,8 @@ class _ContactListEditPage extends State<ContactEditPage> {
         ],
       ),
       body: Form(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        key: _formKey,
+        child: ListView(children: [
           Card(
             margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
             child: ListTile(
@@ -42,8 +51,16 @@ class _ContactListEditPage extends State<ContactEditPage> {
                 color: Colors.cyan,
               ),
               title: TextFormField(
-                  decoration: InputDecoration(labelText: "First Name"),
-                  initialValue: widget.contact.getFirstName()),
+                decoration: InputDecoration(labelText: "First Name"),
+                initialValue: widget.contact.getFirstName(),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter first name';
+                  }
+                  firstName = value;
+                  return null;
+                },
+              ),
             ),
           ),
           Card(
@@ -54,8 +71,16 @@ class _ContactListEditPage extends State<ContactEditPage> {
                 color: Colors.cyan,
               ),
               title: TextFormField(
-                  decoration: InputDecoration(labelText: "Last Name"),
-                  initialValue: widget.contact.getLastName()),
+                decoration: InputDecoration(labelText: "Last Name"),
+                initialValue: widget.contact.getLastName(),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter last name';
+                  }
+                  lastName = value;
+                  return null;
+                },
+              ),
             ),
           ),
           Card(
@@ -68,6 +93,13 @@ class _ContactListEditPage extends State<ContactEditPage> {
               title: TextFormField(
                 decoration: InputDecoration(labelText: "Phone Number"),
                 initialValue: widget.contact.getPhoneNumber(),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter phone number';
+                  }
+                  phoneNumber = value;
+                  return null;
+                },
               ),
             ),
           ),
@@ -79,16 +111,26 @@ class _ContactListEditPage extends State<ContactEditPage> {
                 color: Colors.cyan,
               ),
               title: TextFormField(
-                  decoration: InputDecoration(labelText: "Email"),
-                  initialValue: widget.contact.getEmail()),
+                decoration: InputDecoration(labelText: "Email"),
+                initialValue: widget.contact.getEmail(),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter email address';
+                  }
+                  email = value;
+                  return null;
+                },
+              ),
             ),
           ),
           ElevatedButton(
               onPressed: () {
-                setState(() {});
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Contact Successfully Edited')),
-                );
+                if (_formKey.currentState!.validate()) {
+                  setState(() {
+                    _con.updateContact(widget.contact, firstName, lastName,
+                        phoneNumber, email, context);
+                  });
+                }
               },
               child: Text("Save Changes")),
         ]),
