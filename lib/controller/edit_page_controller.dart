@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/scaffold.dart';
 import 'package:flutter_app/model/contact_model.dart';
@@ -20,6 +18,9 @@ class EditPageController extends ControllerMVC {
   /// Allow for easy access to 'the Controller' throughout the application.
   static EditPageController get con => _controller;
 
+  /// Called when updateContact button is pressed - edits an existing contact in the contact list.
+  ///
+  /// Displays snack bar message and then navigates back and refreshes previous page.
   void updateContact(ContactModel contact, String firstName, String lastName,
       String phoneNumber, String email, BuildContext context) {
     contact.updateAll(firstName, lastName, phoneNumber, email);
@@ -31,6 +32,9 @@ class EditPageController extends ControllerMVC {
     });
   }
 
+  /// Called when deleteContact button is pressed - deletes an existing contact from the contact list.
+  ///
+  /// Displays snack bar message and then navigates back and refreshes previous page.
   void onDeletePressed(BuildContext context, ContactModel contact) {
     final ContactListModel cl = ContactListModel();
     if (contact != null) {

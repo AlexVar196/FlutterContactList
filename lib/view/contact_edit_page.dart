@@ -1,13 +1,18 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'dart:developer';
 import '../model/contact_model.dart';
 import '../controller/edit_page_controller.dart';
 
+/// This builds the contact edit page for a [contact].
+/// Displays a form with current first and last name, phone number and email.
+/// Provides functionality: update contact, delete contact.
 class ContactEditPage extends StatefulWidget {
   ContactEditPage(this.contact, {Key? key}) : super(key: key);
 
+  /// [contact] who's information will be edited or deleted.
   final ContactModel contact;
+
+  /// appBar title.
   final String title = "Contact List (Home)";
 
   @override
@@ -15,7 +20,10 @@ class ContactEditPage extends StatefulWidget {
 }
 
 class _ContactListEditPage extends State<ContactEditPage> {
+  /// This page's controller (singleton) - Responsible for responding to UI inputs.
   final EditPageController _con = EditPageController();
+
+  /// Form's global Key.
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String firstName = "";
@@ -32,10 +40,12 @@ class _ContactListEditPage extends State<ContactEditPage> {
           IconButton(
               icon: Icon(Icons.delete),
               onPressed: () {
+                // When delete icon pressed, shows a dialog confirmation question.
                 showAlertDialog();
               })
         ],
       ),
+      // A form that collects user input and validates that fields are not empty.
       body: Form(
         key: _formKey,
         child: ListView(children: [
@@ -119,6 +129,7 @@ class _ContactListEditPage extends State<ContactEditPage> {
               ),
             ),
           ),
+          // When pressed, submits the form inputs and passes data to the controller.
           ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
@@ -134,25 +145,27 @@ class _ContactListEditPage extends State<ContactEditPage> {
     );
   }
 
+  /// Dialog box that asks the user whether the contact should be deleted.
+  ///
+  /// If 'cancel' preseed, closes the dialog.
+  /// If 'Delete Contact' pressed, deletes user, returns to previous screen and refreshes it.
   showAlertDialog() {
-    // set up the buttons
+    // Sets up the buttons cancel/delete contact.
     Widget cancelButton = FlatButton(
       child: Text("Cancel"),
       onPressed: () {
-        log("cancelButton pressed");
         Navigator.pop(context);
       },
     );
     Widget deleteButton = FlatButton(
       child: Text("Delete Contact"),
       onPressed: () {
-        log("deleteButton pressed");
         _con.onDeletePressed(context, widget.contact);
         Navigator.pop(context);
       },
     );
 
-    // set up the AlertDialog
+    // Sets up the AlertDialog.
     AlertDialog alert = AlertDialog(
       title: Text("Delete Contact"),
       content: Text(
@@ -163,7 +176,7 @@ class _ContactListEditPage extends State<ContactEditPage> {
       ],
     );
 
-    // show the dialog
+    // Shows the dialog box.
     showDialog(
       context: context,
       builder: (BuildContext context) {

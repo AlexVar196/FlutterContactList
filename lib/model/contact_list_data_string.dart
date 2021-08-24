@@ -1,3 +1,7 @@
+/// This is a replacement of a simple Json file.
+/// When app starts, it will display the content of [data] by default.
+/// Represents few possible data inputs, a full list, a single item list and an empty list.
+
 String data = '[ '
     '{ "firstName": "Mark", "lastName": "Something", "phoneNumber": "(123) 123-1231", "email": "something1@somewhere.com" },'
     ' { "firstName": "George", "lastName": "Bosha", "phoneNumber": "(123) 123-1231", "email": "gafhadfh@somewhere.com" },'

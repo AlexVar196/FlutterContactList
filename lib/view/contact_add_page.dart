@@ -1,15 +1,11 @@
-import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/controller/add_page_controller.dart';
-import 'dart:developer';
-import '../model/contact_model.dart';
-import '../controller/edit_page_controller.dart';
-import '../model/contact_list_data_string.dart' as contactListData;
 
 class ContactAddPage extends StatefulWidget {
   ContactAddPage({Key? key}) : super(key: key);
 
+  /// appBar title.
   final String title = "Add New Contact";
 
   @override
@@ -17,7 +13,10 @@ class ContactAddPage extends StatefulWidget {
 }
 
 class _AddContactPage extends State<ContactAddPage> {
+  /// This page's controller (singleton) - Responsible for responding to UI inputs.
   final AddPageController _con = AddPageController();
+
+  /// Form's global Key.
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String firstName = "";
@@ -29,6 +28,7 @@ class _AddContactPage extends State<ContactAddPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
+      // A form that collects user input and validates that fields are not empty.
       body: Form(
         key: _formKey,
         child: ListView(children: [
@@ -108,6 +108,7 @@ class _AddContactPage extends State<ContactAddPage> {
               ),
             ),
           ),
+          // When pressed, submits the form inputs and passes data to the controller.
           ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
