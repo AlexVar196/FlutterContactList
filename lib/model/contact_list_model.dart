@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/src/widgets/framework.dart';
+
 import '../model/contact_model.dart';
 import '../model/contact_list_data_string.dart' as contactListData;
 
@@ -31,7 +33,6 @@ class ContactListModel {
     log("Added name: ${contact.firstName}");
   }
 
-  void removeContact() {}
 
   List<ContactModel> parseContactsFromJson() {
     var jsonData = jsonDecode(contactListData.data) as List;
@@ -39,5 +40,10 @@ class ContactListModel {
         jsonData.map((x) => ContactModel.fromJson(x)).toList();
     print(contacts);
     return contacts;
+  }
+
+  void deleteContact(ContactModel contact, BuildContext context) {
+    contactList!.remove(contact);
+
   }
 }

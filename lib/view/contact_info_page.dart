@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/controller/info_page_controller.dart';
 import 'dart:developer';
 import '../model/contact_model.dart';
-import '../controller/edit_page_controller.dart';
-import '../model/contact_list_data_string.dart' as contactListData;
 
 class ContactInfoPage extends StatefulWidget {
   ContactInfoPage(this.contact, {Key? key}) : super(key: key);
@@ -33,7 +31,6 @@ class _ContactListEditPage extends State<ContactInfoPage> {
           IconButton(
               icon: Icon(Icons.edit),
               onPressed: () {
-               // _con.onEditPressed(Navigator.of(context), widget.contact);
                 _con.onEditPressed(context, widget.contact);
                 log("Icons.edit for ${widget.contact.getFullName()}");
               })

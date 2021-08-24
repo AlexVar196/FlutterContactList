@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import '../model/contact_model.dart';
 import '../controller/edit_page_controller.dart';
-import '../model/contact_list_data_string.dart' as contactListData;
 
 class ContactEditPage extends StatefulWidget {
   ContactEditPage(this.contact, {Key? key}) : super(key: key);
@@ -27,8 +25,6 @@ class _ContactListEditPage extends State<ContactEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController firstNameController = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Editing: ${widget.contact.getFullName()}"),
@@ -36,7 +32,8 @@ class _ContactListEditPage extends State<ContactEditPage> {
           IconButton(
               icon: Icon(Icons.delete),
               onPressed: () {
-                log("Icons.delete for ${widget.contact.getFullName()}");
+                showAlertDialog();
+                // _con.onDeletePressed(context, widget.contact);
               })
         ],
       ),
@@ -135,6 +132,44 @@ class _ContactListEditPage extends State<ContactEditPage> {
               child: Text("Save Changes")),
         ]),
       ),
+    );
+  }
+
+  showAlertDialog() {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        log("cancelButton pressed");
+        Navigator.pop(context);
+      },
+    );
+    Widget deleteButton = FlatButton(
+      child: Text("Delete Contact"),
+      onPressed: () {
+        log("deleteButton pressed");
+        _con.onDeletePressed(context, widget.contact);
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Delete Contact"),
+      content: Text(
+          "Are you sure you want to permanently delete '${widget.contact.getFullName()}'?"),
+      actions: [
+        cancelButton,
+        deleteButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

@@ -35,4 +35,21 @@ class EditPageController extends ControllerMVC {
       setState(() {});
     });
   }
+
+  void onDeletePressed(BuildContext context, ContactModel contact) {
+    log("name: ${contact.getFullName()} delete");
+
+    final ContactListModel cl = ContactListModel();
+    if (contact != null) {
+      cl.deleteContact(contact, context);
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Contact deleted successfully!")));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Nothing to delete')));
+    }
+    Navigator.pop(context, () {
+      setState(() {});
+    });
+  }
 }

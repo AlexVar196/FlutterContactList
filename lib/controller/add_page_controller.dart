@@ -6,7 +6,6 @@ import 'package:flutter/src/material/scaffold.dart';
 import 'package:flutter_app/model/contact_model.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import '../model/contact_list_model.dart';
-import '../model/contact_list_data_string.dart' as contactListData;
 
 class AddPageController extends ControllerMVC {
   static AddPageController _controller = AddPageController._internal();
