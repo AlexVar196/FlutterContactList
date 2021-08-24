@@ -1,12 +1,8 @@
-import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/model/contact_list_model.dart';
 import 'package:flutter_app/view/contact_info_page.dart';
-import 'dart:developer';
 import '../model/contact_model.dart';
 import '../controller/home_controller.dart';
-import '../model/contact_list_data_string.dart' as contactListData;
 import 'contact_add_page.dart';
 import 'contact_edit_page.dart';
 
@@ -45,14 +41,21 @@ class _HomePageState extends State<HomePage> {
   Widget getContactListView() {
     var _contactList = _con.getContactList();
     if (_contactList.isEmpty) {
-      return Text(
-        "Currently there are no contacts.",
-        textAlign: TextAlign.center,
-        style: const TextStyle(fontWeight: FontWeight.bold),
+      return new Center(
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new Text(
+              "You don't have any contacts yet..",
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          ],
+        ),
       );
     }
 
     return ListView.builder(
+        padding: EdgeInsets.only(bottom: 80),
         itemCount: _contactList.length * 2,
         itemBuilder: (context, count) {
           if (count.isOdd) return Divider();

@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/scaffold.dart';
 import 'package:flutter_app/model/contact_model.dart';
@@ -41,7 +38,6 @@ class AddPageController extends ControllerMVC {
         const SnackBar(content: Text('Unable To Add Contact')),
       );
     }
-
     Navigator.pop(context, () {
       setState(() {});
     });

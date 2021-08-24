@@ -30,20 +30,16 @@ class ContactListModel {
 
   void addContact(ContactModel contact) {
     contactList!.add(contact);
-    log("Added name: ${contact.firstName}");
   }
 
+  void deleteContact(ContactModel contact, BuildContext context) {
+    contactList!.remove(contact);
+  }
 
   List<ContactModel> parseContactsFromJson() {
     var jsonData = jsonDecode(contactListData.data) as List;
     List<ContactModel> contacts =
         jsonData.map((x) => ContactModel.fromJson(x)).toList();
-    print(contacts);
     return contacts;
-  }
-
-  void deleteContact(ContactModel contact, BuildContext context) {
-    contactList!.remove(contact);
-
   }
 }

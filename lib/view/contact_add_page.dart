@@ -117,7 +117,7 @@ class _AddContactPage extends State<ContactAddPage> {
                   });
                 }
               },
-              child: Text("Save Changes")),
+              child: Text("Add Contact")),
         ]),
       ),
     );

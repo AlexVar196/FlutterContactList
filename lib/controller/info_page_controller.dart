@@ -6,8 +6,6 @@ import 'package:flutter/src/widgets/navigator.dart';
 import 'package:flutter_app/model/contact_model.dart';
 import 'package:flutter_app/view/contact_edit_page.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import '../model/contact_list_model.dart';
-import '../model/contact_list_data_string.dart' as contactListData;
 
 class InfoPageController extends ControllerMVC {
   static InfoPageController _controller = InfoPageController._internal();

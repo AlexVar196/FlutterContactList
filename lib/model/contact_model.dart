@@ -32,6 +32,14 @@ class ContactModel {
     return '{ ${this.firstName} ${this.lastName} , phone: ${this.phoneNumber} email: ${this.email}}';
   }
 
+  void updateAll(
+      String firstName, String lastName, String phoneNumber, String email) {
+    _setFirstName(firstName);
+    _setLastName(lastName);
+    _setPhoneNumber(phoneNumber);
+    _setEmail(email);
+  }
+
   String getFullName() {
     return firstName + " " + lastName;
   }
@@ -66,15 +74,5 @@ class ContactModel {
 
   void _setEmail(String email) {
     this.email = email;
-  }
-
-  void updateAll(
-      String firstName, String lastName, String phoneNumber, String email) {
-    _setFirstName(firstName);
-    _setLastName(lastName);
-    _setPhoneNumber(phoneNumber);
-    _setEmail(email);
-
-    log("Contact updated: name: $firstName, last: $lastName, phone: $phoneNumber, email: $email");
   }
 }

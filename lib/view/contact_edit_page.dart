@@ -33,7 +33,6 @@ class _ContactListEditPage extends State<ContactEditPage> {
               icon: Icon(Icons.delete),
               onPressed: () {
                 showAlertDialog();
-                // _con.onDeletePressed(context, widget.contact);
               })
         ],
       ),
